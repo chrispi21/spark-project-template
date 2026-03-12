@@ -1,5 +1,5 @@
 {
-  "name": "spark-cluster",
+  "name": "spark-project-template",
   "image": "mcr.microsoft.com/devcontainers/python:3.12",
 
   "features": {
@@ -13,7 +13,7 @@
 
   "forwardPorts": [8080, 8888, 4040],
 
-  "postCreateCommand": "bash scripts/start-cluster.sh",
+  "postCreateCommand": "bash scripts/start-services.sh",
 
   "customizations": {
     "vscode": {

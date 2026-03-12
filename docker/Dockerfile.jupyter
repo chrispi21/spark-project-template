@@ -1,0 +1,17 @@
+FROM spark:3.5.7-scala2.12-java17-python3-ubuntu
+
+USER root
+RUN useradd -m -s /bin/bash jovyan
+
+USER jovyan
+ENV HOME=/home/jovyan
+ENV SPARK_HOME=/opt/spark
+ENV PYTHONPATH=/opt/spark/python:/opt/spark/python/lib/py4j-0.10.9.7-src.zip
+ENV PATH=/opt/spark/bin:/opt/spark/sbin:$PATH
+ENV PATH=/home/jovyan/.local/bin:$PATH
+
+WORKDIR /home/jovyan
+
+RUN python3 -m pip install --no-cache-dir --user jupyterlab==4.5.6 notebook==7.5.5 pandas==2.3.3
+
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--ServerApp.token=", "--ServerApp.password="]
