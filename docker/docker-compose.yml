@@ -13,11 +13,17 @@ services:
     volumes:
       - ../minio-data:/data
   spark-master:
-    image: spark:3.5.7-scala2.12-java17-python3-ubuntu
+    build:
+      context: .
+      dockerfile: Dockerfile.spark
+    develop:
+      watch:
+        - path: ./Dockerfile.spark
+          action: rebuild
     container_name: spark-master
     hostname: spark-master
-    depends_on:
-      - minio
+    # depends_on:
+    #   - minio
     command: >
       /opt/spark/sbin/start-master.sh &&
       tail -f /dev/null
@@ -26,9 +32,16 @@ services:
       - "8080:8080"
     environment:
       SPARK_NO_DAEMONIZE: "true"
+      HADOOP_OPTIONAL_TOOLS: hadoop-aws
 
   spark-worker-1:
-    image: spark:3.5.7-scala2.12-java17-python3-ubuntu
+    build:
+      context: .
+      dockerfile: Dockerfile.spark
+    develop:
+      watch:
+        - path: ./Dockerfile.spark
+          action: rebuild
     container_name: spark-worker-1
     hostname: spark-worker-1
     depends_on:
@@ -42,9 +55,16 @@ services:
       SPARK_NO_DAEMONIZE: "true"
       SPARK_WORKER_CORES: "1"
       SPARK_WORKER_MEMORY: "1g"
+      HADOOP_OPTIONAL_TOOLS: hadoop-aws
 
   spark-worker-2:
-    image: spark:3.5.7-scala2.12-java17-python3-ubuntu
+    build:
+      context: .
+      dockerfile: Dockerfile.spark
+    develop:
+      watch:
+        - path: ./Dockerfile.spark
+          action: rebuild
     container_name: spark-worker-2
     hostname: spark-worker-2
     depends_on:
@@ -58,6 +78,7 @@ services:
       SPARK_NO_DAEMONIZE: "true"
       SPARK_WORKER_CORES: "1"
       SPARK_WORKER_MEMORY: "1g"
+      HADOOP_OPTIONAL_TOOLS: hadoop-aws
 
   jupyter:
     build:
@@ -79,8 +100,8 @@ services:
     volumes:
       - ../notebooks:/home/jovyan/work
     environment:
+      HADOOP_OPTIONAL_TOOLS: hadoop-aws
       SPARK_MASTER: spark://spark-master:7077
       PYSPARK_SUBMIT_ARGS: >
         --master spark://spark-master:7077 --conf spark.driver.host=jupyter
-        --packages org.apache.hadoop:hadoop-aws:3.3.4,com.amazonaws:aws-java-sdk-bundle:1.12.262
         pyspark-shell

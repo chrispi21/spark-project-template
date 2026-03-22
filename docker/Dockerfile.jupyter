@@ -1,6 +1,26 @@
 FROM spark:3.5.7-scala2.12-java17-python3-ubuntu
 
+# TODO: create a single base docker file
+
+
 USER root
+
+# Versions aligned with Spark 3.5.x
+ENV HADOOP_VERSION=3.3.4
+ENV AWS_SDK_VERSION=1.12.262
+
+WORKDIR /opt/spark/jars
+
+# Download required jars
+RUN apt-get update && apt-get install -y curl && \
+    echo "Downloading Hadoop + S3 jars..." && \
+    curl -fLO https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-common/${HADOOP_VERSION}/hadoop-common-${HADOOP_VERSION}.jar && \
+    curl -fLO https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-client-api/${HADOOP_VERSION}/hadoop-client-api-${HADOOP_VERSION}.jar && \
+    curl -fLO https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-client-runtime/${HADOOP_VERSION}/hadoop-client-runtime-${HADOOP_VERSION}.jar && \
+    curl -fLO https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/${HADOOP_VERSION}/hadoop-aws-${HADOOP_VERSION}.jar && \
+    curl -fLO https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/${AWS_SDK_VERSION}/aws-java-sdk-bundle-${AWS_SDK_VERSION}.jar && \
+    echo "Done"
+
 RUN useradd -m -s /bin/bash jovyan
 
 USER jovyan
