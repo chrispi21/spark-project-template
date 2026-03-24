@@ -1,3 +1,6 @@
+TODO: readme should be updated
+TODO: spark should be also available inside a devcontainer
+
 # Spark Project Template
 
 Local Apache Spark cluster + JupyterLab environment powered by Docker Compose.
