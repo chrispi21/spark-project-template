@@ -8,6 +8,8 @@ echo "Spark cluster & Jupyter stopped"
 
 sleep 5
 
-rm -rm rf minio-data/*
+rm -rf minio-data/*
+
+echo "minio-data cleared"
 
 docker ps
