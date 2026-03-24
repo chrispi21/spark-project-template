@@ -15,10 +15,10 @@ services:
   spark-master:
     build:
       context: .
-      dockerfile: Dockerfile.spark
+      dockerfile: Dockerfile.spark-base
     develop:
       watch:
-        - path: ./Dockerfile.spark
+        - path: ./Dockerfile.spark-base
           action: rebuild
     container_name: spark-master
     hostname: spark-master
@@ -37,10 +37,10 @@ services:
   spark-worker-1:
     build:
       context: .
-      dockerfile: Dockerfile.spark
+      dockerfile: Dockerfile.spark-base
     develop:
       watch:
-        - path: ./Dockerfile.spark
+        - path: ./Dockerfile.spark-base
           action: rebuild
     container_name: spark-worker-1
     hostname: spark-worker-1
@@ -60,10 +60,10 @@ services:
   spark-worker-2:
     build:
       context: .
-      dockerfile: Dockerfile.spark
+      dockerfile: Dockerfile.spark-base
     develop:
       watch:
-        - path: ./Dockerfile.spark
+        - path: ./Dockerfile.spark-base
           action: rebuild
     container_name: spark-worker-2
     hostname: spark-worker-2
