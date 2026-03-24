@@ -99,6 +99,7 @@ services:
       - "4040:4040"
     volumes:
       - ../notebooks:/home/jovyan/work
+      - ../jupyter-data:/home/jovyan/data
     environment:
       HADOOP_OPTIONAL_TOOLS: hadoop-aws
       SPARK_MASTER: spark://spark-master:7077
