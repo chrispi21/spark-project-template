@@ -2,4 +2,4 @@
 **/metastore_db/**
 **/*.log
 notebooks/.Trash-*/**
-minio-data/**
+minio-data/*

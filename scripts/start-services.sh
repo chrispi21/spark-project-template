@@ -2,8 +2,9 @@
 
 echo "Starting Spark cluster & Jupyter..."
 
-docker build -f docker/Dockerfile.spark-base -t spark-base:latest .
-docker compose -f docker/docker-compose.yml up -d --build
+docker compose -f docker/docker-compose.yml build --no-cache
+docker compose -f docker/docker-compose.yml up -d
+# docker compose -f docker/docker-compose.yml up -d --build
 
 echo "Spark cluster & Jupyter started"
 
