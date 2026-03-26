@@ -16,6 +16,7 @@
   "forwardPorts": [8080, 8888, 4040],
 
   "postCreateCommand": "pip install -r requirements.txt && bash scripts/start-services.sh --build",
+  "postStartCommand": "bash scripts/start-services.sh",
 
   "customizations": {
     "vscode": {
