@@ -1,10 +1,18 @@
 #!/bin/bash
 
+BUILD_FLAG=""
+
+for arg in "$@"; do
+  case $arg in
+    --build)
+      BUILD_FLAG="--build"
+      ;;
+  esac
+done
+
 echo "Starting Spark cluster & Jupyter..."
 
-# TODO: add --build flag to rebuild images if needed
-# docker compose -f docker/docker-compose.yml build --no-cache
-docker compose -f docker/docker-compose.yml up -d
+docker compose -f docker/docker-compose.yml up -d $BUILD_FLAG
 
 echo "Spark cluster & Jupyter started"
 
