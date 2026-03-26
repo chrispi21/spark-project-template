@@ -23,4 +23,10 @@ docker exec minio /usr/bin/mc mb --ignore-existing local/warehouse
 
 echo "'warehouse' bucket created"
 
+docker exec minio /usr/bin/mc mb --ignore-existing local/landing-zone
+docker cp scripts/s3-sample.csv minio:/tmp/s3-sample.csv
+docker exec minio /usr/bin/mc cp /tmp/s3-sample.csv local/landing-zone/s3-sample.csv
+
+echo "'landing-zone' bucket created & sample data uploaded"
+
 docker ps
