@@ -1,3 +1,6 @@
 #!/bin/bash
 
-spark-submit work/spark_job_example/job.py
+DERBY_HOME=$(mktemp -d)
+spark-submit \
+  --conf "spark.driver.extraJavaOptions=-Dderby.system.home=${DERBY_HOME}" \
+  work/spark_job_example/job.py
