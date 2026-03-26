@@ -1,6 +1,9 @@
 {
   "name": "spark-project-template",
-  "image": "mcr.microsoft.com/devcontainers/python:3.12",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
 
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:2": {
@@ -11,9 +14,12 @@
     }
   },
 
+  "runArgs": ["--dns=8.8.8.8", "--dns=1.1.1.1"],
+
   "forwardPorts": [8080, 8888, 4040],
 
-  "postCreateCommand": "bash scripts/start-services.sh",
+  "postCreateCommand": "bash scripts/start-services.sh --build",
+  "postStartCommand": "bash scripts/start-services.sh",
 
   "customizations": {
     "vscode": {

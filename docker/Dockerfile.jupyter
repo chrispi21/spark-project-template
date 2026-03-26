@@ -1,6 +1,7 @@
-FROM spark:3.5.7-scala2.12-java17-python3-ubuntu
+FROM spark-base:latest
 
 USER root
+
 RUN useradd -m -s /bin/bash jovyan
 
 USER jovyan
@@ -13,5 +14,8 @@ ENV PATH=/home/jovyan/.local/bin:$PATH
 WORKDIR /home/jovyan
 
 RUN python3 -m pip install --no-cache-dir --user jupyterlab==4.5.6 notebook==7.5.5 pandas==2.3.3
+
+RUN mkdir -p /home/jovyan/.ipython/profile_default/startup
+COPY ipython_startup/ /home/jovyan/.ipython/profile_default/startup/
 
 CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--ServerApp.token=", "--ServerApp.password="]
