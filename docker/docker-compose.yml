@@ -22,17 +22,11 @@ services:
         - path: ./Dockerfile.spark-base
           action: rebuild
   spark-master:
-    build:
-      context: .
-      dockerfile: Dockerfile.spark-base
-    develop:
-      watch:
-        - path: ./Dockerfile.spark-base
-          action: rebuild
+    image: spark-base:latest
+    depends_on:
+      - spark-base
     container_name: spark-master
     hostname: spark-master
-    # depends_on:
-    #   - minio
     command: >
       /opt/spark/sbin/start-master.sh &&
       tail -f /dev/null
@@ -44,13 +38,7 @@ services:
       HADOOP_OPTIONAL_TOOLS: hadoop-aws
 
   spark-worker-1:
-    build:
-      context: .
-      dockerfile: Dockerfile.spark-base
-    develop:
-      watch:
-        - path: ./Dockerfile.spark-base
-          action: rebuild
+    image: spark-base:latest
     container_name: spark-worker-1
     hostname: spark-worker-1
     depends_on:
@@ -67,13 +55,7 @@ services:
       HADOOP_OPTIONAL_TOOLS: hadoop-aws
 
   spark-worker-2:
-    build:
-      context: .
-      dockerfile: Dockerfile.spark-base
-    develop:
-      watch:
-        - path: ./Dockerfile.spark-base
-          action: rebuild
+    image: spark-base:latest
     container_name: spark-worker-2
     hostname: spark-worker-2
     depends_on:
