@@ -3,3 +3,4 @@
 **/*.log
 notebooks/.Trash-*/**
 minio-data/*
+!minio-data/.gitkeep
