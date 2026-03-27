@@ -3,4 +3,3 @@
 **/*.log
 notebooks/.Trash-*/**
 minio-data/*
-**/.DS_Store
