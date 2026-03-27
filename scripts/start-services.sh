@@ -12,7 +12,11 @@ done
 
 echo "Starting Spark cluster & Jupyter..."
 
-docker compose -f docker/docker-compose.yml up -d $BUILD_FLAG
+# Build spark-base first so spark-base:latest exists locally (not pulled from Docker Hub) before
+# Jupyter's Dockerfile and spark-master/workers use that image.
+# docker compose -f docker/docker-compose.yml build spark-base
+
+# docker compose -f docker/docker-compose.yml up -d $BUILD_FLAG
 
 echo "Spark cluster & Jupyter started"
 
@@ -24,8 +28,14 @@ docker exec minio /usr/bin/mc mb --ignore-existing local/warehouse
 echo "'warehouse' bucket created"
 
 docker exec minio /usr/bin/mc mb --ignore-existing local/landing-zone
-docker cp scripts/s3-sample.csv minio:/tmp/s3-sample.csv
-docker exec minio /usr/bin/mc cp /tmp/s3-sample.csv local/landing-zone/s3-sample.csv
+
+for f in scripts/uam_categories.snappy.parquet \
+         scripts/uam_offers.snappy.parquet \
+         scripts/uam_orders.snappy.parquet; do
+  docker cp "$f" minio:/tmp/
+done
+
+docker exec minio sh -c '/usr/bin/mc cp /tmp/*.parquet local/landing-zone/'
 
 echo "'landing-zone' bucket created & sample data uploaded"
 

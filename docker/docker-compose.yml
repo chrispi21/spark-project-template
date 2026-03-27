@@ -81,10 +81,16 @@ services:
           action: rebuild
     container_name: jupyter
     hostname: jupyter
+    # Ensures spark-base is built before Jupyter (FROM spark-base:latest is local, not Docker Hub).
     depends_on:
-      - spark-master
-      - spark-worker-1
-      - spark-worker-2
+      spark-base:
+        condition: service_started
+      spark-master:
+        condition: service_started
+      spark-worker-1:
+        condition: service_started
+      spark-worker-2:
+        condition: service_started
     ports:
       - "8888:8888"
       - "4040:4040"
